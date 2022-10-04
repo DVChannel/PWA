@@ -13,7 +13,6 @@ const instalacion = new Promise( (resolve, reject) => {
         self.skipWaiting();
         resolve();
     }, 1000);
-
 });
 
 
@@ -22,7 +21,6 @@ event.waitUntil( instalacion );
 
 });
 self.addEventListener('activate', event => {
-
     console.log('SW2: activo y listo');
 });
 
@@ -33,4 +31,13 @@ self.addEventListener('fetch', event => {
          const resp = new Response(`{ ok: false, mensaje: 'ajajjajj'}`);
          event.respondWith( resp );
      }
+});
+self.addEventListener('sync', event => {
+
+    console.log('Tenemos conexion');
+    console.log(event);
+    console.log(event.tag);});
+
+self.addEventListener('push', event => {
+    console.log('Notificacion recibida');
 });
