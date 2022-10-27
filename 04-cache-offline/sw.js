@@ -19,3 +19,7 @@ self.addEventListener('install', e => {
         });
         e.waitUntil(cacheProm);
     });
+
+    self.addEventListener('fetch', e =>{
+        e.responseWith(caches.match(e.request));
+    });
