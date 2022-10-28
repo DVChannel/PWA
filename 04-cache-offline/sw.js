@@ -51,25 +51,20 @@ self.addEventListener('install', e => {
     
 self.addEventListener('fetch', e=>{
 
-    const respuesta = fetch( e.request ).then( res => {
-
-             if ( !res ) return caches.match( e.request );
+    if ( e.request.url.includes('bootstrap') ) {
+             return e.respondWith( caches.match( e.request ) );
+         }
     
-                caches.open( CACHE_DYNAMIC_NAME )
-                 .then( cache => {
-                     cache.put( e.request, res );
-                     limpiarCache( CACHE_DYNAMIC_NAME, CACHE_DYNAMIC_LIMIT );
-                 });
+         const respuesta = caches.open( CACHE_STATIC_NAME ).then( cache => {
     
+             fetch( e.request ).then( newRes => 
+                     cache.put( e.request, newRes ));
     
-             return res.clone();
+             return cache.match( e.request );
     
-         }).catch( err =>{
-             return caches.match( e.request );
          });
     
-    
-    
          e.respondWith( respuesta );
+    
     
         });
