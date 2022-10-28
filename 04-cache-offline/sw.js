@@ -1,4 +1,6 @@
 
+const CACHE_NAME = 'cache-1';
+
 self.addEventListener('install', e => {
 
 
@@ -19,7 +21,36 @@ self.addEventListener('install', e => {
         });
         e.waitUntil(cacheProm);
     });
+    
+    
+    const respuesta = caches.match( e.request )
+         .then( res => {
 
-    self.addEventListener('fetch', e =>{
-        e.responseWith(caches.match(e.request));
-    });
+             if ( res ) return res;
+
+             // No existe el archivo
+             // tengo que ir a la web
+             console.log('No existe', e.request.url );
+
+
+             return fetch( e.request ).then( newResp => {
+
+                 caches.open( CACHE_DYNAMIC_NAME )
+                     .then( cache => {
+                         cache.put( e.request, newResp );
+                     limpiarCache( CACHE_DYNAMIC_NAME, 50 );
+                     });
+
+                return newResp.clone();
+             });
+
+
+         });
+
+
+
+
+     e.respondWith( respuesta );
+
+        // e.responseWith(caches.match(e.request));
+    
