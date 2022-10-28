@@ -49,35 +49,27 @@ self.addEventListener('install', e => {
         e.waitUntil(cacheProm);
     });
     
+self.addEventListener('fetch', e=>{
+
+    const respuesta = fetch( e.request ).then( res => {
+
+             if ( !res ) return caches.match( e.request );
     
-    const respuesta = caches.match( e.request )
-         .then( res => {
-
-             if ( res ) return res;
-
-             // No existe el archivo
-             // tengo que ir a la web
-             console.log('No existe', e.request.url );
-
-
-             return fetch( e.request ).then( newResp => {
-
-                 caches.open( CACHE_DYNAMIC_NAME )
-                     .then( cache => {
-                         cache.put( e.request, newResp );
-                     limpiarCache( CACHE_DYNAMIC_NAME, 50 );
-                     });
-
-                return newResp.clone();
-             });
-
-
+                caches.open( CACHE_DYNAMIC_NAME )
+                 .then( cache => {
+                     cache.put( e.request, res );
+                     limpiarCache( CACHE_DYNAMIC_NAME, CACHE_DYNAMIC_LIMIT );
+                 });
+    
+    
+             return res.clone();
+    
+         }).catch( err =>{
+             return caches.match( e.request );
          });
-
-
-
-
-     e.respondWith( respuesta );
-
-        // e.responseWith(caches.match(e.request));
     
+    
+    
+         e.respondWith( respuesta );
+    
+        });
