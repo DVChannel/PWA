@@ -4,13 +4,20 @@ var router = express.Router();
 
 
 
-
+const mensajes=[
+  {
+    _id: 'XXX',
+    user: 'spiderman',
+    mensaje: 'holamor'
+  }
+];
 
 
 
 // Get mensajes
 router.get('/', function (req, res) {
-  res.json('Obteniendo mensajes');
+ // res.json('Obteniendo mensajes');
+res.json(mensajes);
 });
 
 
