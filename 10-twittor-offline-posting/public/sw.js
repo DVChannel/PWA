@@ -75,8 +75,12 @@ self.addEventListener('activate', e => {
 
 self.addEventListener( 'fetch', e => {
 
+let respuesta;
+if (e.request.url.includes('/api')){
 
-    const respuesta = caches.match( e.request ).then( res => {
+    respuesta = manejoApiMensajes(DYNAMIC_CACHE, e.request);
+}else{
+    respuesta = caches.match( e.request ).then( res => {
 
         if ( res ) {
             
@@ -94,7 +98,7 @@ self.addEventListener( 'fetch', e => {
 
     });
 
-
+}
 
     e.respondWith( respuesta );
 
