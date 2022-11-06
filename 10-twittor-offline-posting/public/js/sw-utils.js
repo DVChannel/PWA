@@ -42,7 +42,10 @@ function actualizaCacheStatico( staticCache, req, APP_SHELL_INMUTABLE ) {
 function manejoApiMensajes(cache, req){
     if ( req.clone().method === 'POST' ) {
         // POSTEO de un nuevo mensaje
-
+req.clone().text().then(body=>{
+    const bodyObj = JSON.parse(body);
+    guardarMensaje(bodyObj);
+});
             return fetch( req );
         }
 
