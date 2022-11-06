@@ -139,7 +139,20 @@ postBtn.on('click', function() {
         cancelarBtn.click();
         return;
     }
+var data = {
+    mensaje: mensaje, 
+    user: usuario
+};
 
+fetch('api',{
+    method: 'POST',
+    headers:{
+        'Content-Type': 'application/json'
+    }, body: JSON.stringify(data)
+    }).then(res=> res.json())
+    .then(res=> console.log('app.js', res))
+    .catch(res=> console.log('app.js error:', err));
+        
     crearMensajeHTML( mensaje, usuario );
 
 });

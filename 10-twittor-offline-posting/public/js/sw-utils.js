@@ -40,16 +40,29 @@ function actualizaCacheStatico( staticCache, req, APP_SHELL_INMUTABLE ) {
 
 }
 function manejoApiMensajes(cache, req){
-return fetch(req).then(res=>{
-if ( res.ok ) {
-    actualizaCacheDinamico( cacheName, req, res.clone() );
-    return res.clone();
-} else {
-    return caches.match( req );
+    if ( req.clone().method === 'POST' ) {
+        // POSTEO de un nuevo mensaje
+
+            return fetch( req );
+        }
+
+ else {
+
+    return fetch( req ).then( res => {
+
+        if ( res.ok ) {
+            actualizaCacheDinamico( cacheName, req, res.clone() );
+            return res.clone();
+        } else {
+            return caches.match( req );
+        }
+  
+    }).catch( err => {
+        return caches.match( req );
+    });
+
 }
 
-}).catch( err => {
-return caches.match( req );
-});
 
 }
+
