@@ -108,4 +108,13 @@ if (e.request.url.includes('/api')){
 
 });
 
+self.addEventListener('sync', e => {
+
+console.log('SW: Sync');
+
+    if ( e.tag === 'nuevo-post' ) {
+
+    }
+
+});
 
