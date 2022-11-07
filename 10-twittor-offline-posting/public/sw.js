@@ -113,7 +113,8 @@ self.addEventListener('sync', e => {
 console.log('SW: Sync');
 
     if ( e.tag === 'nuevo-post' ) {
-
+const respuesta = postearMensajes();
+e.waitUntil(respuesta);
     }
 
 });
