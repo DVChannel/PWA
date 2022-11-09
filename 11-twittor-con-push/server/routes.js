@@ -41,5 +41,29 @@ router.post('/', function (req, res) {
 });
 
 
+// Almacenar la suscripción
+router.post('/subscribe', (req, res) => {
+
+  res.json('subscribe');
+
+});
+
+// Almacenar la suscripción
+router.get('/key', (req, res) => {
+
+  res.json('key publico');
+
+});
+
+
+// Envar una notificación PUSH a las personas
+// que nosotros queramos
+// ES ALGO que se controla del lado del server
+router.post('/push', (req, res) => {
+  res.json( 'key publico' );
+
+});
+
+
 
 module.exports = router;
