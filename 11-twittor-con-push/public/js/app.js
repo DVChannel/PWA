@@ -220,6 +220,19 @@ window.addEventListener('offline', isOnline );
 isOnline();
 
 
+function verificaSuscripcion( activadas ) {
+
+    if ( activadas ) {
+        
+        btnActivadas.removeClass('oculto');
+        btnDesactivadas.addClass('oculto');
+
+    } else {
+        btnActivadas.addClass('oculto');
+        btnDesactivadas.removeClass('oculto');
+    }
+
+}
 
 
 function enviarNotificacion() {
@@ -268,4 +281,4 @@ function notificarme() {
     }
 
 }
-notificarme();
+//notificarme();
