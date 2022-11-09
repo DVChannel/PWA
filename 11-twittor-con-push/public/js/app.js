@@ -1,7 +1,7 @@
 
 var url = window.location.href;
 var swLocation = '/twittor/sw.js';
-
+var swReg;
 
 if ( navigator.serviceWorker ) {
 
@@ -10,8 +10,16 @@ if ( navigator.serviceWorker ) {
         swLocation = '/sw.js';
     }
 
+    window.addEventListener('load', function() {
 
-    navigator.serviceWorker.register( swLocation );
+        navigator.serviceWorker.register( swLocation ).then( function(reg){
+
+            swReg = reg;
+            swReg.pushManager.getSubscription().then( verificaSuscripcion );
+
+        });
+
+    });
 }
 
 
@@ -297,3 +305,29 @@ function getPublicKey() {
 
 }
 getPublicKey().then( console.log );
+
+
+// getPublicKey().then( console.log );
+btnDesactivadas.on( 'click', function() {
+
+    if ( !swReg ) return console.log('No hay registro de SW');
+
+    getPublicKey().then( function( key ) {
+
+        swReg.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: key
+        })
+        .then( res => res.toJSON() )
+        .then( suscripcion => {
+
+             console.log(suscripcion);
+            verificaSuscripcion(suscripcion);
+
+        });
+
+
+    });
+
+
+});
